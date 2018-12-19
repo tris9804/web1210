@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
-
+from .forms import BookForm
+from django.contrib import messages
 from .models import Book
 
 def index(requset):
@@ -18,7 +19,13 @@ def show(request, pk):
     return render(request, 'books/show.html', {'book': book})
 
 def add(request):
-    print(request.method)
-    if request.method == 'POST':
-        print(request.POST)
-    return render(request, 'books/add.html')
+ 
+    form = BookForm(request.POST or None)
+    if form.is_valid():
+        form.save() 
+        messages.success(request, '新增成功')
+        return redirect('books-index')
+
+    return render(request, 'books/add.html', {'form': form})
+
+
