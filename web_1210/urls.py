@@ -14,10 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.shortcuts import redirect
 
-from . import views
-from books import views as book_views
+
+# def root(request):
+#     return redirect('books-index')
+
+admin.site.site_title = 'Book 網站管理'
+admin.site.site_header = 'Book 管理'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,8 +31,7 @@ urlpatterns = [
     # path('s/<int:number>/',views.s),
     # path('l/<int:number1>/<int:number2>/',views.l),
 
-    path('books/',book_views.index, name='books-index'),
-    path('books/<int:pk>/', book_views.show, name='books-show'),
-    path('books/add/', book_views.add, name='books-add'),
-    
+    path('',lambda request: redirect('books-index'), name='root'), #lambba = 23.24行
+    path('books/', include('books.urls')),
+    path('jet/', include('jet.urls', 'jet')),
 ]

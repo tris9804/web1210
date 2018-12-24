@@ -1,0 +1,9 @@
+{% load bootstrap4 %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+   
+
+    <button type="submit" class="btn btn-info float-right">Send</button>
+</form>
